@@ -18,6 +18,7 @@ import com.codename1.ui.layouts.BoxLayout;
 import com.mycompany.myapp.entities.Reclamation;
 import com.mycompany.myapp.services.ServiceReclamation;
 import com.codename1.ui.ComboBox;
+import com.codename1.ui.TextArea;
 import java.util.Date;
 
 /**
@@ -31,14 +32,11 @@ public class AddRecForm extends Form{
         setLayout(BoxLayout.y());
         
         TextField recName = new TextField("","Nom de la réclamation");
-//        TextField recType = new TextField("","Type de réclamation");
         ComboBox<String> recType = new ComboBox<>("Type de réclamation", "User", "Ticket", "Evénement", "Autre aide");
-        TextField recDesc = new TextField("","Description");
+        TextArea recDesc = new TextArea(5, 20);
+        recDesc.setHint("Merci de décrire votre problème");
         Button btnValider = new Button("Ajoutez votre nouvelle réclamation");
-        
-//        TextField tfName = new TextField("","TaskName");
-//        CheckBox cbStatus = new CheckBox("Status");
-//        Button btnValider = new Button("Add task");
+
 
             btnValider.addActionListener(new ActionListener() {
             @Override
@@ -68,6 +66,7 @@ public class AddRecForm extends Form{
                         if( ServiceReclamation.getInstance().addReclamation(r, userId))
                         {
                            Dialog.show("Succès","Votre réclamation a été ajoutée",new Command("OK"));
+                           new ListReclamationsForm(r.getUser_id()).show();
                         }else
                             Dialog.show("ERROR", "Server error", new Command("OK"));
                     } catch (NumberFormatException e) {

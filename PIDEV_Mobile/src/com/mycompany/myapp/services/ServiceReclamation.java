@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 
+
 /**
  *
  * @author bhk
@@ -58,6 +59,26 @@ public class ServiceReclamation {
         String desc = r.getDescription();
         
         String url = Statics.BASE_URL + "/new?titreRec=" + name + "&typeRec=" + type + "&descRec=" + desc + "&userId=" + userId;
+//        String url = Statics.BASE_URL + "/new";
+//        String url = Statics.BASE_URL + "create/" + status + "/" + name;
+
+        req.setUrl(url);
+        req.setPost(true);
+        
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                resultOK = req.getResponseCode() == 200; //Code HTTP 200 OK
+                req.removeResponseListener(this);
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(req);
+        return resultOK;
+    }
+    
+    public boolean removeRep(int recId) {
+
+        String url = Statics.REMOVEREC_URL + "/" + recId;
 //        String url = Statics.BASE_URL + "/new";
 //        String url = Statics.BASE_URL + "create/" + status + "/" + name;
 
@@ -279,6 +300,7 @@ public class ServiceReclamation {
         Map<String, Object> repsListJson = j.parseJSON(new CharArrayReader(jsonText.toCharArray()));
         List<Map<String, Object>> list = (List<Map<String, Object>>) repsListJson.get("reponses");
         
+        
         for (Map<String, Object> obj : list) {
             Reponses rep = new Reponses();
 
@@ -298,6 +320,23 @@ public class ServiceReclamation {
             } else {
                 rep.setRep_desc(descriptionObj.toString());
             }
+            
+            // Get date
+            Object dateObj = obj.get("dateRep");
+            if (dateObj == null) {
+                rep.setDate_rep(new Date());
+            } else {
+            String dateString = obj.get("dateRep").toString();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            try {
+                Date date = dateFormat.parse(dateString);
+                rep.setDate_rep(date);
+            } catch (ParseException e) {
+                System.err.println("Error parsing date: " + dateString);
+                rep.setDate_rep(new Date());
+            }
+        }
+            
 
             reponses.add(rep);
         }

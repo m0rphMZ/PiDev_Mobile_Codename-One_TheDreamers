@@ -34,9 +34,15 @@ import java.util.Date;
 /**
  *
  * @author Theto
+ * 
+ * 
  */
-public class ListOneRec extends Form {
 
+
+public class ListOneRec extends Form {
+    
+
+    
     public ListOneRec(Form previous, int recId) {
         setTitle("Reclamation " + recId);
         setLayout(BoxLayout.y());
@@ -89,6 +95,31 @@ public class ListOneRec extends Form {
         responseContainer.add(responseArea);
     
         Button sendButton = new Button("Envoyer une réponse");
+        Button deleteButton = new Button("Supprimer la reclamation");
+        
+       
+        
+        deleteButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent evt) {
+                        if (Dialog.show("Alerte", "Voulez-vous vraiment supprimer cette réclamation ?", "Supprimer", "Annuler")) {
+                            boolean deleted = ServiceReclamation.getInstance().removeRep(r.getRec_id());
+                            if (deleted) {
+                                Dialog.show("Succès", "Réclamation supprimée avec succès", "OK", null);
+//                                ListOneRec.this.getParent().removeComponent(ListOneRec.this);
+                                    new ListReclamationsForm(r.getUser_id()).show();
+                                
+
+                                
+                            } else {
+                                Dialog.show("Erreur", "Erreur lors de la suppression de la réclamation", "OK", null);
+                            }
+                        }
+                    }
+                });
+
+
+        
         sendButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
@@ -105,7 +136,9 @@ public class ListOneRec extends Form {
                             rep.setUser_id(r.getUser_id());
                             if( ServiceReclamation.getInstance().addReponse(rep))
                             {
-                                 Dialog.show("Succès","Votre reponse a été ajoutée",new Command("OK"));
+                                 Dialog.show("Succès","Votre reponse a été ajoutée, un email vous a été envoyé",new Command("OK"));
+                                 new ListReclamationsForm(r.getUser_id()).show();
+                                 
                             }
                             else
                                 Dialog.show("ERROR", "Server error", new Command("OK"));
@@ -117,6 +150,7 @@ public class ListOneRec extends Form {
             // implement the logic to send the response
         });
         responseContainer.add(sendButton);
+        responseContainer.add(deleteButton);
     
         card.add(responseContainer);
     
@@ -127,6 +161,10 @@ public class ListOneRec extends Form {
         Container responseCard = new Container(new BoxLayout(BoxLayout.Y_AXIS));
         responseCard.setUIID("Card");
         
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        Label dateLabel = new Label("Envoyé le: " + sdf.format(rep.getDate_rep()));
+        responseCard.add(dateLabel);
+        
         Label userLabel = new Label("Reponse #: " + rep.getRep_id());
         responseCard.add(userLabel);
     
@@ -136,76 +174,6 @@ public class ListOneRec extends Form {
 
     this.add(responseCard);
 }}}
-
-
-//    private void addElement(Reclamation r) {
-//    // create the UI elements to display the Reclamation object
-//    Container card = new Container(new BoxLayout(BoxLayout.Y_AXIS));
-//    card.setUIID("Card");
-//    
-//    Label userLabel = new Label("UserId: " + r.getUser_id());
-//    card.add(userLabel);
-//
-//    Label titleLabel = new Label("Titre: " + r.getTitre_rec());
-//    Font fnt = titleLabel.getUnselectedStyle().getFont();
-//    Font newFont = fnt.derive(Display.getInstance().convertToPixels(5), Font.STYLE_BOLD);
-//    titleLabel.getUnselectedStyle().setFont(newFont);
-//    card.add(titleLabel);
-//
-//    Label typeLabel = new Label("Type: " + r.getType());
-//    card.add(typeLabel);
-//
-//    Label statusLabel = new Label("Status: " + r.getStatus());
-//    card.add(statusLabel);
-//
-//    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-//    Label dateCreationLabel = new Label("Créé le: " + sdf.format(r.getDate_creation()));
-//    card.add(dateCreationLabel);
-//
-//    Container responseContainer = new Container(new BoxLayout(BoxLayout.Y_AXIS));
-//    responseContainer.setUIID("Card");
-//
-//    Label responseLabel = new Label("Ajouter plus d'informations");
-//    responseContainer.add(responseLabel);
-//
-//    TextArea responseArea = new TextArea(5, 20);
-//    responseArea.setHint("Tapez votre réponse ici");
-//    responseContainer.add(responseArea);
-//
-//    Button sendButton = new Button("Envoyer une réponse");
-//    sendButton.addActionListener(new ActionListener() {
-//        @Override
-//        public void actionPerformed(ActionEvent evt) {
-//            if (responseArea.getText().length() < 5)
-//                     Dialog.show("Alerte", "Le reponse doit comporter au moins 5 caractères", new Command("OK"));
-//             else
-//                {
-//                    try {
-//                        Reponses rep = new Reponses();
-//                        rep.setRep_desc(responseArea.getText());
-//                        rep.setDate_rep(new Date());
-//                        rep.setIsAdminReponse(false);
-//                        rep.setRec_id(r.getRec_id());
-//                        rep.setUser_id(r.getUser_id());
-//                        if( ServiceReclamation.getInstance().addReponse(rep))
-//                        {
-//                             Dialog.show("Succès","Votre reponse a été ajoutée",new Command("OK"));
-//                        }
-//                        else
-//                            Dialog.show("ERROR", "Server error", new Command("OK"));
-//                    }catch (NumberFormatException e) {
-//                        Dialog.show("ERROR", "Status must be a number", new Command("OK"));
-//                    }
-//                }
-//        }
-//        // implement the logic to send the response
-//    });
-//    responseContainer.add(sendButton);
-//
-//    card.add(responseContainer);
-//
-//    this.add(card);
-//}
 
 
 

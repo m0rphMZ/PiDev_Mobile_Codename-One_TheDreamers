@@ -559,7 +559,7 @@ public function search(Request $request, ReclamationRepository $reclamationRepos
 
 
         #[Route('reclamationRepJSON/', name: 'new_reponseJSON')]
-        public function newRepJson(Request $request, NormalizerInterface $Normalizer)
+        public function newRepJson(Request $request, NormalizerInterface $Normalizer, \Symfony\Component\Mailer\MailerInterface $mailer)
         {
             $recId = $request->query->get('recId');
             $userId = $request->query->get('userId');
@@ -584,10 +584,38 @@ public function search(Request $request, ReclamationRepository $reclamationRepos
             $entityManager->persist($reponse);
             $entityManager->flush();
 
+            $email = (new Email())
+            ->from('touskieart.reclamations@gmail.com')
+            ->to($reclamation->getUser()->getEmail())
+            ->subject('Nouvelle réponse ajoutée à votre réclamation sur Touskieart App')
+            ->html('<p>Bonjour ' . $reclamation->getUser()->getNom() . ',</p><p>Une nouvelle réponse a été ajoutée à votre réclamation "' . $reclamation->getTitreRec() . '" sur Touskieart app.</p><p>Veuillez ouvrir l\'application pour voir la réponse.</p><p>Merci,</p><p>Touskieart team</p>');
+            $mailer->send($email);
+
+
 
             $jsonContent = $Normalizer->normalize($reponse, 'json', ['groups' => 'reponse']);
             return new Response(json_encode($jsonContent));
         }
+
+
+        #[Route('deleteRecJSON/{recId}', name: 'deleteRecJSON')]
+        public function deleteRecByRecId($recId, Request $request, NormalizerInterface $Normalizer)
+        {
+            $entityManager = $this->getDoctrine()->getManager();
+            $reclamation = $entityManager->getRepository(Reclamation::class)->find($recId);
+
+            $entityManager->remove($reclamation);
+            $entityManager->flush();
+
+
+            $jsonContent = $Normalizer->normalize($reclamation, 'json', ['groups' => 'reclamations']);
+
+            return new Response("Reclamation deleted" . json_encode($jsonContent));
+
+        
+
+            
+}
 
 
 

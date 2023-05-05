@@ -31,16 +31,38 @@ import java.util.ArrayList;
 public class ListReclamationsForm extends Form {
     
     public ListReclamationsForm(Form previous, int userId) {
-        setTitle("List Reclamations");
-        setLayout(BoxLayout.y());
+    setTitle("List Reclamations");
+    setLayout(BoxLayout.y());
 
-        ArrayList<Reclamation> reclamations = ServiceReclamation.getInstance().getAllRecs(userId);
+    ArrayList<Reclamation> reclamations = ServiceReclamation.getInstance().getAllRecs(userId);
+    if (reclamations.isEmpty()) {
+        Label noReclamationsLabel = new Label("Vous n'avez aucune réclamation active");
+        add(noReclamationsLabel);
+    } else {
         for (Reclamation r : reclamations) {
             addElement(r);
         }
+    }
 
-        getToolbar().addMaterialCommandToLeftBar("", FontImage.MATERIAL_ARROW_BACK, e -> previous.showBack());
+    getToolbar().addMaterialCommandToLeftBar("", FontImage.MATERIAL_ARROW_BACK, e -> previous.showBack());
+}
 
+
+    ListReclamationsForm(int userId) {
+    setTitle("List Reclamations");
+    setLayout(BoxLayout.y());
+
+    ArrayList<Reclamation> reclamations = ServiceReclamation.getInstance().getAllRecs(userId);
+    if (reclamations.isEmpty()) {
+        Label noReclamationsLabel = new Label("Vous n'avez aucune réclamation active");
+        add(noReclamationsLabel);
+    } else {
+        for (Reclamation r : reclamations) {
+            addElement(r);
+        }
+    }
+    
+     getToolbar().addMaterialCommandToLeftBar("", FontImage.MATERIAL_ARROW_BACK, e-> new RecHomeForm().show());
     }
 
    public void addElement(Reclamation reclamation) {
@@ -104,7 +126,7 @@ public class ListReclamationsForm extends Form {
     idAndTitle.addAll(lblRecId, lblTitre, lblTitreValue);
     
      // Create the view button
-    Button btnView = new Button("View");
+    Button btnView = new Button("Ouvrez le Réclamation");
     btnView.setUIID("ViewButton");
     
     // Set the button color to blue
