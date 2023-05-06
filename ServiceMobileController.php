@@ -112,7 +112,7 @@ $user->setRole($request->get('role'));
 $user->setTel($request->get('tel'));
 /*$user->setImage($request->get('image')); */
 $user->setMdp($request->get('mdp'));
-$user->setEtat($request->get('etat'));
+$user->setEtat("activé");
 $em->flush();
 $jsonContent = $normalizer->normalize($user, 'json');
 return new Response("Mise a jour avec succées   ".json_encode($jsonContent));
