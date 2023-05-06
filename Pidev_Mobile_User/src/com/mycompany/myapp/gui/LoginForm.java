@@ -22,15 +22,15 @@ import java.util.ArrayList;
  */
 public class LoginForm extends Form{
     private static User User_connected;
-    
+
     public static User getUserConnected() {
-    return User_connected;
-}
-    
+        return User_connected;
+    }
+
     public static void setUserConnected(User user) {
-    User_connected = user;
-}
-    
+        User_connected = user;
+    }
+
     public LoginForm() {
         setTitle("Login");
         setLayout(new BoxLayout(BoxLayout.Y_AXIS));
@@ -40,61 +40,42 @@ public class LoginForm extends Form{
         Button btncn = new Button("Se connecter");
         Button btnins = new Button("S'inscrire");
         addAll(emailtf,passtf,btncn,btnins);
-        
+
         btnins.addActionListener(e-> new AddUser (this).show());
-         btncn.addActionListener(new ActionListener() {
-             @Override
-             public void actionPerformed(ActionEvent evt) {
-                 
-                 ArrayList<User> users = ServiceUser.getInstance().getAllUsers();
-                 String email = emailtf.getText();
-                 String mdp = passtf.getText();
-                 
-                 if(email.equals("")||mdp.equals("")){
-                 Dialog.show("ERROR", "champs vides", new Command("OK"));
-                 }
-                 
-                 if(!(email.equals(""))&&!(email.contains("@"))){
-                     Dialog.show("ERROR", "email non valide", new Command("OK"));
-                 }
-                 
-                 for (User user : users) {
-           if ((user.getEmail().equals(email)) && (user.getMdp().equals(mdp))){
-          
-           User_connected=user;
-           Dialog.show("Succès", "Bienvenue "+User_connected.getNom(), new Command("OK"));
-           if (User_connected.getRole().equals("Admin")){
-             new HomeForm().show();
-           }
-           else {
-             Dialog.show("Succès", "makesh Admin", new Command("OK"));
-             break;
-           }
-          
-           }
-           
-           
-           
-        }
-                 
-                
-           
-                 
-                 
-                 
-                 
-                 
+        btncn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+                ArrayList<User> users = ServiceUser.getInstance().getAllUsers();
+                String email = emailtf.getText();
+                String mdp = passtf.getText();
+                boolean found = false;
+
+                if(email.equals("")||mdp.equals("")) {
+                    Dialog.show("ERROR", "champs vides", new Command("OK"));
+                }
+                else if(!(email.contains("@"))) {
+                    Dialog.show("ERROR", "email non valide", new Command("OK"));
+                }
+                else {
+                    for (User user : users) {
+                        if ((user.getEmail().equals(email)) && (user.getMdp().equals(mdp))){
+                            User_connected=user;
+                            found = true;
+                            Dialog.show("Succès", "Bienvenue "+User_connected.getNom(), new Command("OK"));
+                            if (User_connected.getRole().equals("Admin")){
+                                new HomeForm().show();
+                            }
+                            else {
+                                new home().show();
+                                break;
+                            }
+                        }
+                    }
+                    if (!found) {
+                        Dialog.show("Error", "email ou mdp incorrectes", new Command("OK"));
+                    }
+                }
+            }
+        });
     }
-});
-        
-        
-       
-        
-        
-    
-    
-    }
-    
-    
-    
 }

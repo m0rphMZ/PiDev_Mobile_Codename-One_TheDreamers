@@ -33,7 +33,7 @@ public class ServiceUser {
     public static ServiceUser instance = null;
     public boolean resultOK;
     private ConnectionRequest req;
-      public ArrayList<User> Users;
+    public ArrayList<User> Users;
 
     private ServiceUser() {
         req = new ConnectionRequest();
@@ -200,12 +200,127 @@ public class ServiceUser {
 }
      
      
+     public boolean deleteUser(int userId) {
+    String url = Statics.Delete_User + userId;
+    
+    ConnectionRequest req = new ConnectionRequest();
+    req.setUrl(url);
+    req.setPost(false); 
+
+    req.addResponseListener(new ActionListener<NetworkEvent>() {
+        @Override
+        public void actionPerformed(NetworkEvent evt) {
+            resultOK = req.getResponseCode() == 200; 
+            req.removeResponseListener(this);
+        }
+    });
+    
+    NetworkManager.getInstance().addToQueueAndWait(req);
+    return resultOK;
+}
      
      
      
      
      
      
+     
+     
+     
+     public User parseUser(String jsonText) {
+    User user = new User();
+    try {
+        JSONParser j = new JSONParser();
+        Map<String, Object> userJson = j.parseJSON(new CharArrayReader(jsonText.toCharArray()));
+
+        if (userJson.get("idUser") != null) {
+            float id = Float.parseFloat(userJson.get("idUser").toString());
+            user.setId((int) id);
+        }
+
+        if (userJson.get("nom") != null) {
+            user.setNom(userJson.get("nom").toString());
+        }
+
+        if (userJson.get("prenom") != null) {
+            user.setPrenom(userJson.get("prenom").toString());
+        }
+
+        if (userJson.get("email") != null) {
+            user.setEmail(userJson.get("email").toString());
+        }
+
+        if (userJson.get("mdp") != null) {
+            user.setMdp(userJson.get("mdp").toString());
+        }
+
+        if (userJson.get("role") != null) {
+            user.setRole(userJson.get("role").toString());
+        }
+
+        if (userJson.get("image") != null) {
+            user.setImage(userJson.get("image").toString());
+        }
+
+        if (userJson.get("tel") != null) {
+            float tel = Float.parseFloat(userJson.get("tel").toString());
+            user.setTel((int) tel);
+        }
+    } catch (IOException ex) {
+        System.out.println(ex.getMessage());
+    }
+    return user;
+}   
+     
+     
+     
+     
+     
+     
+public User getUserById(int userId) {
+    String url = Statics.Show_User + userId;
+    req.setUrl(url);
+    req.setPost(false);
+    final User[] user = {null}; 
+    req.addResponseListener(new ActionListener<NetworkEvent>() {
+        @Override
+        public void actionPerformed(NetworkEvent evt) {
+            user[0] = parseUser(new String(req.getResponseData())); 
+            req.removeResponseListener(this);
+        }
+    });
+    NetworkManager.getInstance().addToQueueAndWait(req);
+    return user[0]; 
+}
+
+
+     
+     public boolean updateUser(User u) {
+    int id = u.getId();
+    String nom = u.getNom();
+    String prenom = u.getPrenom();
+    String email = u.getEmail();
+    String mdp = u.getMdp();
+    int tel = u.getTel();
+    String role = u.getRole();
+
+String url = Statics.Update_User + id + "?nom=" + nom + "&prenom=" + prenom + "&email=" + email + "&role=" + role + "&tel=" + tel + "&mdp=" + mdp;
+    ConnectionRequest req = new ConnectionRequest(); // Initialize req here
+
+    req.setUrl(url);
+    req.setPost(true);
+
+    req.addResponseListener(new ActionListener<NetworkEvent>() {
+        @Override
+        public void actionPerformed(NetworkEvent evt) {
+            resultOK = req.getResponseCode() == 200;
+            req.removeResponseListener(this);
+        }
+    });
+
+    NetworkManager.getInstance().addToQueueAndWait(req);
+    return resultOK;
+}
      
     
     
