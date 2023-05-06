@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3307
--- Generation Time: May 06, 2023 at 11:54 AM
+-- Generation Time: May 06, 2023 at 06:23 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.1.12
 
@@ -360,26 +360,6 @@ CREATE TABLE `reponses` (
   `isAdminReponse` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `reponses`
---
-
-INSERT INTO `reponses` (`rep_id`, `rec_id`, `user_id`, `admin_id`, `rep_description`, `date_rep`, `isAdminReponse`) VALUES
-(627, 195, 39, NULL, 'Nous pensons que cela a été corrigé, merci de votre patience', '2015-05-01', 1),
-(628, 196, 39, NULL, 'Nous y travaillons, merci pour votre patience', '2023-05-01', 1),
-(629, 196, 39, NULL, 'je pense que c\'est en quelque sorte réparé maintenant, ça marche', '2023-05-01', 0),
-(630, 196, 39, NULL, 'Très bien, je vais fermer cette réclamation maintenant, content que ce soit corrigé', '2023-05-01', 1),
-(633, 193, 39, NULL, 'ghfghfghfghf', '2023-05-03', 0),
-(634, 193, 39, NULL, 'reponse', '2023-05-04', 0),
-(635, 203, 39, NULL, 'reponse', '2023-05-04', 0),
-(636, 193, 39, NULL, 'reponse test', '2023-05-04', 0),
-(637, 193, 39, NULL, 'reponse test email', '2023-05-04', 0),
-(638, 193, 39, NULL, 'reponse test email', '2023-05-04', 0),
-(639, 193, 39, NULL, 'ronse test email', '2023-05-04', 0),
-(640, 204, 39, NULL, 'Reponse', '2023-05-05', 0),
-(641, 205, 39, NULL, 'lmaolmao', '2023-05-06', 0),
-(642, 207, 39, NULL, 'Nouvelle reponse', '2023-05-06', 0);
-
 -- --------------------------------------------------------
 
 --
@@ -542,7 +522,7 @@ ALTER TABLE `produit`
 --
 ALTER TABLE `reclamation`
   ADD PRIMARY KEY (`rec_id`),
-  ADD KEY `fk_userid_rec` (`user_id`);
+  ADD KEY `fk_recid_userid` (`user_id`);
 
 --
 -- Indexes for table `redection`
@@ -555,8 +535,8 @@ ALTER TABLE `redection`
 --
 ALTER TABLE `reponses`
   ADD PRIMARY KEY (`rep_id`),
-  ADD KEY `fk_rec_id_reponse` (`rec_id`),
-  ADD KEY `fk_userid_reponse` (`user_id`);
+  ADD KEY `fk_recid_rep` (`rec_id`),
+  ADD KEY `fk_userid_rep` (`user_id`);
 
 --
 -- Indexes for table `ticket`
@@ -695,6 +675,19 @@ ALTER TABLE `commentaire`
 ALTER TABLE `eventreaction`
   ADD CONSTRAINT `event_id_fk` FOREIGN KEY (`event_id`) REFERENCES `event` (`event_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `user_id_fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `reclamation`
+--
+ALTER TABLE `reclamation`
+  ADD CONSTRAINT `fk_recid_userid` FOREIGN KEY (`user_id`) REFERENCES `user` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `reponses`
+--
+ALTER TABLE `reponses`
+  ADD CONSTRAINT `fk_recid_rep` FOREIGN KEY (`rec_id`) REFERENCES `reclamation` (`rec_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_userid_rep` FOREIGN KEY (`user_id`) REFERENCES `reclamation` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
