@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/1"/>
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/C:/Users/ashre/Downloads/workshop_parsing_json_cn1-main/workshop_parsing_json_cn1-main/src/com/mycompany/myapp/services/CartService.java</file>
+            <file>file:/C:/Users/ashre/Downloads/workshop_parsing_json_cn1-main/workshop_parsing_json_cn1-main/src/com/mycompany/myapp/services/ServiceProduit.java</file>
+            <file>file:/C:/Users/ashre/Downloads/workshop_parsing_json_cn1-main/workshop_parsing_json_cn1-main/src/com/mycompany/myapp/entities/Produit.java</file>
+            <file>file:/C:/Users/ashre/Downloads/workshop_parsing_json_cn1-main/workshop_parsing_json_cn1-main/src/com/mycompany/myapp/gui/PaymentForm.java</file>
+            <file>file:/C:/Users/ashre/Downloads/workshop_parsing_json_cn1-main/workshop_parsing_json_cn1-main/src/com/mycompany/myapp/services/CommandeService.java</file>
+            <file>file:/C:/Users/ashre/Downloads/workshop_parsing_json_cn1-main/workshop_parsing_json_cn1-main/src/com/mycompany/myapp/gui/NewCartForm.java</file>
+            <file>file:/C:/Users/ashre/Downloads/workshop_parsing_json_cn1-main/workshop_parsing_json_cn1-main/src/com/mycompany/myapp/MyApplication.java</file>
+            <file>file:/C:/Users/ashre/Downloads/workshop_parsing_json_cn1-main/workshop_parsing_json_cn1-main/src/com/mycompany/myapp/gui/CommandeItemForm.java</file>
+            <file>file:/C:/Users/ashre/Downloads/workshop_parsing_json_cn1-main/workshop_parsing_json_cn1-main/src/com/mycompany/myapp/entities/Task.java</file>
+            <file>file:/C:/Users/ashre/Downloads/workshop_parsing_json_cn1-main/workshop_parsing_json_cn1-main/src/com/mycompany/myapp/gui/CommandeBackForm.java</file>
+            <file>file:/C:/Users/ashre/Downloads/workshop_parsing_json_cn1-main/workshop_parsing_json_cn1-main/src/com/mycompany/myapp/entities/CommandeItem.java</file>
+            <file>file:/C:/Users/ashre/Downloads/workshop_parsing_json_cn1-main/workshop_parsing_json_cn1-main/src/com/mycompany/myapp/services/PaymentService.java</file>
+            <file>file:/C:/Users/ashre/Downloads/workshop_parsing_json_cn1-main/workshop_parsing_json_cn1-main/src/com/mycompany/myapp/services/ServiceTask.java</file>
+            <file>file:/C:/Users/ashre/Downloads/workshop_parsing_json_cn1-main/workshop_parsing_json_cn1-main/src/com/mycompany/myapp/gui/mesCommandeForm.java</file>
+            <file>file:/C:/Users/ashre/Downloads/workshop_parsing_json_cn1-main/workshop_parsing_json_cn1-main/src/com/mycompany/myapp/entities/Livraison.java</file>
+            <file>file:/C:/Users/ashre/Downloads/workshop_parsing_json_cn1-main/workshop_parsing_json_cn1-main/src/com/mycompany/myapp/services/LivraisonService.java</file>
+            <file>file:/C:/Users/ashre/Downloads/workshop_parsing_json_cn1-main/workshop_parsing_json_cn1-main/src/com/mycompany/myapp/gui/LivraisonBackForm.java</file>
+            <file>file:/C:/Users/ashre/Downloads/workshop_parsing_json_cn1-main/workshop_parsing_json_cn1-main/src/com/mycompany/myapp/gui/ListProduitForm.java</file>
+            <file>file:/C:/Users/ashre/Downloads/workshop_parsing_json_cn1-main/workshop_parsing_json_cn1-main/src/com/mycompany/myapp/services/CommandeItemService.java</file>
+            <file>file:/C:/Users/ashre/Downloads/workshop_parsing_json_cn1-main/workshop_parsing_json_cn1-main/src/com/mycompany/myapp/utils/Statics.java</file>
+            <file>file:/C:/Users/ashre/Downloads/workshop_parsing_json_cn1-main/workshop_parsing_json_cn1-main/src/com/mycompany/myapp/gui/Back.java</file>
+            <file>file:/C:/Users/ashre/Downloads/workshop_parsing_json_cn1-main/workshop_parsing_json_cn1-main/src/com/mycompany/myapp/entities/Commande.java</file>
+            <file>file:/C:/Users/ashre/Downloads/workshop_parsing_json_cn1-main/workshop_parsing_json_cn1-main/src/com/mycompany/myapp/services/ProduitService.java</file>
+            <file>file:/C:/Users/ashre/Downloads/workshop_parsing_json_cn1-main/workshop_parsing_json_cn1-main/src/com/mycompany/myapp/gui/LivraisonForm.java</file>
+            <file>file:/C:/Users/ashre/Downloads/workshop_parsing_json_cn1-main/workshop_parsing_json_cn1-main/src/com/mycompany/myapp/gui/CommandeItemBackForm.java</file>
+        </group>
+    </open-files>
+</project-private>
