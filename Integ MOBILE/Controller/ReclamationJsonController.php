@@ -269,4 +269,34 @@ class ReclamationJsonController extends AbstractController
 
 
 
+
+
+        #[Route('adminClosereclamation/{recId}', name: 'close_reclamation')]
+
+    public function closeReclamation($recId, Request $request,Reclamation $reclamation,NormalizerInterface $Normalizer): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $reclamation = $entityManager->getRepository(Reclamation::class)->find($recId);
+
+        $reclamation->setStatus('Fermée');
+        $reclamation->setDateFin(new \DateTime());
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->flush();
+        
+        $jsonContent = $Normalizer->normalize($reclamation, 'json', ['groups' => 'reclamations']);
+
+        return new Response("Reclamation closed" . json_encode($jsonContent));
+    }
+
+
+    
+
+
+
+
+
+
+
+
+
 }
