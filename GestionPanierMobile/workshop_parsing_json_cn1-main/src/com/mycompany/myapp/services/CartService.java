@@ -143,8 +143,8 @@ public class CartService {
     }
 
     public String Payer(String numCard, String expMois, String exAnnee, String cvv, int prix) {
-        String nom = "sddsdsdsds";
-        String email = "seif@gmail.com";
+        String nom = "";
+        String email = "";
         String payed;
         PaymentService servicePayment = new PaymentService(email, nom, prix * 100, numCard, expMois, exAnnee, cvv);
         try {
