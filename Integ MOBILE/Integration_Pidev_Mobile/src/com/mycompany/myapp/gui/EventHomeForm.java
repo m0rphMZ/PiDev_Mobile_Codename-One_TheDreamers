@@ -26,11 +26,13 @@ public class EventHomeForm extends Form{
         add(new Label("Choose an option"));
         Button btnAddEvent = new Button("Ajouter un événement");
         Button btnListEvents = new Button("Liste des événements");
+        Button btnListTickets = new Button("Mes tickets");
         
         btnAddEvent.addActionListener(e-> new EventAddForm(this).show());
         btnListEvents.addActionListener(e-> new EventsListForm(this).show());
+        btnListTickets.addActionListener(e-> new TicketListForm(this).show());
         
-        addAll(btnListEvents, btnAddEvent);
+        addAll(btnListEvents, btnAddEvent, btnListTickets);
         
         
     }

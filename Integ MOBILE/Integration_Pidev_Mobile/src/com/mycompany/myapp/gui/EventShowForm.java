@@ -17,7 +17,9 @@ import com.codename1.ui.events.ActionEvent;
 import com.codename1.ui.events.ActionListener;
 import com.codename1.ui.layouts.BoxLayout;
 import com.mycompany.myapp.entities.Event;
+import com.mycompany.myapp.entities.Ticket;
 import com.mycompany.myapp.services.ServiceEvent;
+import com.mycompany.myapp.services.ServiceTicket;
 
 /**
  *
@@ -63,13 +65,17 @@ public class EventShowForm extends Form{
             }
         });
         
+        //Buy Ticket
+        Button btnBuy = new Button("Acheter un ticket");
+        btnBuy.addActionListener(e-> new TicketBuyForm(this, ev.getEvent_id()).show());
+        
         Container TitleContainer = new Container(BoxLayout.x());
         TitleContainer.setUIID("TitleContainer");
 
         Container SingleEventContent = new Container(BoxLayout.y());
         SingleEventContent.setUIID("SEContent");
 
-        SingleEventContent.addAll(TypeLabel, DescLabel, startDateLabel, endDateLabel, locationLabel, hostLabel, ticketCountLabel, ticketPriceLabel, btnUpdate, btnDelete);
+        SingleEventContent.addAll(TypeLabel, DescLabel, startDateLabel, endDateLabel, locationLabel, hostLabel, ticketCountLabel, ticketPriceLabel, btnBuy, btnUpdate, btnDelete);
         SingleEventContent.getAllStyles().setMarginTop(5);
 
         SingleEventContainer.addAll(SingleEventContent);

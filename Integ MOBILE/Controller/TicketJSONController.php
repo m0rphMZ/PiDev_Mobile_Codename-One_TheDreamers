@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Entity\Event;
+use App\Entity\Ticket;
 use App\Form\EventType;
 use App\Entity\Location;
 use App\Repository\EventRepository;
@@ -38,6 +39,43 @@ class TicketJSONController extends AbstractController
         $json = json_encode($ticketsNorm);
 
         return new Response($json);
+    }
+
+    // Add Ticket
+    #[Route('/ticketlist/new', name: 'app_ticket_json_new')]
+    public function jsonNew(Request $request, NormalizerInterface $Normalizer, TicketRepository $ticketRepository)
+    {
+        $ticket = new Ticket();
+        //User Finder
+        $entityManager = $this->getDoctrine()->getManager();
+        $userId = $request->get('userId');
+        $user = $entityManager->getRepository(User::class)->find($userId);
+        if (!$user) {
+            return new Response('User not found', Response::HTTP_NOT_FOUND);
+        }
+        $ticket->setUser($user);
+
+        //Event Finder
+        $entityManager = $this->getDoctrine()->getManager();
+        $eventId = $request->get('eventId');
+        $event = $entityManager->getRepository(Event::class)->find($eventId);
+        if (!$event) {
+            return new Response('Event not found', Response::HTTP_NOT_FOUND);
+        }
+        $ticket->setEvent($event);
+
+        //Other fields
+        $ticket->setPrice($event->getTicketprice());
+        $ticket->setQrcodeimg("QRCode");
+        
+        $event->setTicketcount($event->getTicketcount() - 1);
+
+        $entityManager->persist($ticket);
+        $entityManager->persist($event);
+        $entityManager->flush();
+
+        $jsonContent = $Normalizer->normalize($ticket, 'json', ['groups' => 'tickets']);
+        return new Response(json_encode($jsonContent));
     }
     
 }
