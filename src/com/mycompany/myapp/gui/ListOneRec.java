@@ -79,6 +79,10 @@ public class ListOneRec extends Form {
     
         Label statusLabel = new Label("Status: " + r.getStatus());
         card.add(statusLabel);
+        
+        if (r.getStatus().equals("Fermée")) {
+        statusLabel.getAllStyles().setFgColor(0x00FF00);
+        } else {statusLabel.getAllStyles().setFgColor(0xff0000);}
     
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         Label dateCreationLabel = new Label("Créé le: " + sdf.format(r.getDate_creation()));
@@ -93,9 +97,22 @@ public class ListOneRec extends Form {
         TextArea responseArea = new TextArea(5, 20);
         responseArea.setHint("Tapez votre réponse ici");
         responseContainer.add(responseArea);
+        
+        Label closedLabel = new Label("Réclamation fermée.");
+        closedLabel.getAllStyles().setFgColor(0xff0000); // set text color to red
+        Label closedLabel2 = new Label("Vous ne pouvez plus répondre.");
+        closedLabel2.getAllStyles().setFgColor(0xff0000); // set text color to red
     
-        Button sendButton = new Button("Envoyer une réponse ");
+        
+        Button sendButton = new Button("Envoyer une réponse ");  
         Button deleteButton = new Button("Supprimer la reclamation");
+        
+        if (r.getStatus().equals("Fermée")) {
+            sendButton.setEnabled(false);
+            responseArea.setEnabled(false);
+            responseContainer.add(closedLabel);
+            responseContainer.add(closedLabel2);
+        }
         
        
         
@@ -103,7 +120,7 @@ public class ListOneRec extends Form {
                     @Override
                     public void actionPerformed(ActionEvent evt) {
                         if (Dialog.show("Alerte", "Voulez-vous vraiment supprimer cette réclamation ?", "Supprimer", "Annuler")) {
-                            boolean deleted = ServiceReclamation.getInstance().removeRep(r.getRec_id());
+                            boolean deleted = ServiceReclamation.getInstance().removeRec(r.getRec_id());
                             if (deleted) {
                                 Dialog.show("Succès", "Réclamation supprimée avec succès", "OK", null);
 //                                ListOneRec.this.getParent().removeComponent(ListOneRec.this);

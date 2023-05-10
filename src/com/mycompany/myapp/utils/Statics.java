@@ -10,23 +10,16 @@ package com.mycompany.myapp.utils;
  * @author bhk
  */
 public class Statics {
-    //public static final String BASE_URL="https://workshopparsingjsoncn1back-production.up.railway.app/task/";
+
+    //    ________________________________________RECLAMATION____________________________________________
     public static final String ADDREC_URL="http://127.0.0.1:8000/reclamationJSON";
     public static final String RECBYUSERID_URL="http://127.0.0.1:8000/reclamationsParUserIdJSON";
-//    public static final String RECBYRECID_URL="http://127.0.0.1:8000/reclamationParRecIdJSON";
-//    public static final String FETSHREPS_URL="http://127.0.0.1:8000/reponsesParRecIdJSON";
-    
     public static final String NEWREP_URL="http://127.0.0.1:8000/reclamationNewRepJSON";
-    
     public static final String NEWREPADMIN_URL="http://127.0.0.1:8000/reclamationNewRepAdminJSON";
-    
     public static final String REMOVEREC_URL="http://127.0.0.1:8000/deleteRecJSON";
-
-    
-    
     public static final String RECPLUSREPBYRECID_URL="http://127.0.0.1:8000/reclamationEtReponsesParRecIdJSON";
-    
     public static final String RECSADMIN_URL="http://127.0.0.1:8000/reclamationsAdminJSON";
+     public static final String CLOSEREC_URL="http://127.0.0.1:8000/adminClosereclamation";
     
     
     
@@ -47,6 +40,21 @@ public class Statics {
        public static final String DELETE_EVENT_BASE_URL="http://localhost:8000/eventdelete/";
        public static final String TICKET_BASE_URL="http://localhost:8000/ticketlist";
     
-    //Arbia
-       public static final String Loc_BASE_URL="http://localhost/PiDev_WEB_Symfony_TheDreamers-main%20FF/PiDev_WEB_Symfony_TheDreamers-main/integration%20--finale--/WebTemplate/public/index.php";
+    
+       //    ________________________________________Local____________________________________________
+       //Arbia:
+       public static final String BASE_URL="http://localhost:8000";
+       
+       
+    //    ________________________________________Panier____________________________________________
+       //Ashref:   
+    public static final String BASE_URL_Panier="http://127.0.0.1:8000/mobile";
+    public static final String PRODUIT_IMAGE_URL = "http://127.0.0.1/img/";
+    public static final String EXERCICE_IMAGE_URL = "http://127.0.0.1:8000/media/";
+    public static final String EMPLOYEE_IMAGE_URL = "http://127.0.0.1:8000/media/";
+    public static final String SUJET_IMAGE_URL = "http://127.0.0.1:8000/media/";
+    public static final String ARITCLE_IMAGE_URL = "http://127.0.0.1:8000/media/";
+       
+       
+       
 }

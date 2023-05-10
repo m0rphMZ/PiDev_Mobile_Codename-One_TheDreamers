@@ -20,18 +20,26 @@ public class AdminForm extends Form{
         
         setTitle("Admin Dashboard");
         setLayout(BoxLayout.y());
-        
+             getToolbar().addCommandToOverflowMenu("Déconnecter", null, ev -> {
+    LoginForm loginForm = new LoginForm();
+    loginForm.show();
+});
+             
         add(new Label("Dashboard"));
         
         Button list = new Button("Listes des utilisateurs");
         Button eventAdmin = new Button("Evénements");
         Button recAdmin = new Button("Reclamations");
+        Button local = new Button("locaux");
+        Button commande = new Button("commandes");
+        commande.addActionListener(e-> new LivraisonCommandeBackForm().show());
+        
         
         recAdmin.addActionListener(e-> new RecBackHomeForm (this).show());
         list.addActionListener(e-> new UsersForm (this).show());
         eventAdmin.addActionListener(e-> new EventAdminHomeForm(this).show());
-        
-        addAll(list,eventAdmin,recAdmin);
+        local.addActionListener(e-> new LocalListForm().show());
+        addAll(list,eventAdmin,recAdmin,local,commande);
         
         
     }

@@ -32,12 +32,12 @@ public class UsersForm extends Form {
         setTitle("Liste des utilisateurs");
         setLayout(new BoxLayout(BoxLayout.Y_AXIS));
         getStyle().setBgColor(0xf2f2f2); 
-         Button ajout = new Button("ajouter un utilisateur");
-         ajout.setAlignment(LEFT);
+        Button ajout = new Button("ajouter un utilisateur");
+        ajout.setAlignment(LEFT);
          
-         ajout.addActionListener(e-> new AddUser(this).show());
+        ajout.addActionListener(e-> new AddUser(this).show());
          
-         add(ajout);
+        add(ajout);
          
          
          

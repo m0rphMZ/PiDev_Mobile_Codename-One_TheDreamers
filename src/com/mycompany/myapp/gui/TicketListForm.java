@@ -27,8 +27,13 @@ public class TicketListForm extends Form{
         setLayout(BoxLayout.y());
         
         ArrayList<Ticket> tickets = ServiceTicket.getInstance().getAllTickets();
-        for (Ticket e : tickets) {
-            addElement(e);
+        for (Ticket t : tickets) {  
+            if (LoginForm.getUserConnected().getRole().equals("Admin")) {
+                addElement(t);
+            } 
+            if (LoginForm.getUserConnected().getId() == t.getUser_id()) {
+                addElement(t);
+            }
         }
         
         

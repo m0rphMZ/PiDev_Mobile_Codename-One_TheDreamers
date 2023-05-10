@@ -23,6 +23,7 @@ public class EventHomeForm extends Form{
         Toolbar toolbar = getToolbar();
         toolbar.addMaterialCommandToLeftBar("", FontImage.MATERIAL_ARROW_BACK, e -> previous.showBack());
         
+        add(new Label("Choose an option"));
         Button btnAddEvent = new Button("Ajouter un événement");
         Button btnListEvents = new Button("Liste des événements");
         Button btnListTickets = new Button("Mes tickets");
@@ -31,7 +32,7 @@ public class EventHomeForm extends Form{
         btnListEvents.addActionListener(e-> new EventsListForm(this).show());
         btnListTickets.addActionListener(e-> new TicketListForm(this).show());
         
-        addAll(btnListEvents, btnListTickets, btnAddEvent);
+        addAll(btnListEvents, btnAddEvent, btnListTickets);
         
         
     }

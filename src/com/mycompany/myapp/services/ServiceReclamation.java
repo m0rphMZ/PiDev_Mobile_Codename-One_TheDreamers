@@ -76,12 +76,9 @@ public class ServiceReclamation {
         return resultOK;
     }
     
-    public boolean removeRep(int recId) {
+    public boolean removeRec(int recId) {
 
         String url = Statics.REMOVEREC_URL + "/" + recId;
-//        String url = Statics.BASE_URL + "/new";
-//        String url = Statics.BASE_URL + "create/" + status + "/" + name;
-
         req.setUrl(url);
         req.setPost(true);
         
@@ -95,6 +92,25 @@ public class ServiceReclamation {
         NetworkManager.getInstance().addToQueueAndWait(req);
         return resultOK;
     }
+    
+    public boolean closeRec(int recId) {
+
+        String url = Statics.CLOSEREC_URL + "/" + recId;
+        req.setUrl(url);
+        req.setPost(true);
+        
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                resultOK = req.getResponseCode() == 200; //Code HTTP 200 OK
+                req.removeResponseListener(this);
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(req);
+        return resultOK;
+    }
+    
+    
        
 
     public ArrayList<Reclamation> parseReclamations(String jsonText) {

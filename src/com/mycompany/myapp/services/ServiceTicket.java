@@ -5,6 +5,7 @@
 
 package com.mycompany.myapp.services;
 
+import com.codename1.components.InfiniteProgress;
 import com.codename1.io.ConnectionRequest;
 import com.codename1.io.NetworkEvent;
 import com.codename1.io.NetworkManager;
@@ -17,6 +18,7 @@ import com.codename1.io.JSONParser;
 import com.codename1.l10n.ParseException;
 import com.codename1.l10n.SimpleDateFormat;
 import com.mycompany.myapp.entities.Ticket;
+import com.stripe.exception.StripeException;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
@@ -74,8 +76,8 @@ public class ServiceTicket {
                     e.setQrCodeImg(obj.get("qrcodeimg").toString());
                 }
                 
-                if (obj.get("host") instanceof Map) {
-                    Map<String, Object> host = (Map<String, Object>) obj.get("host");
+                if (obj.get("user") instanceof Map) {
+                    Map<String, Object> host = (Map<String, Object>) obj.get("user");
                     Object userIdObj = host.get("idUser");
                     Object userNomObj = host.get("nom");
                     Object userPrenomObj = host.get("prenom");
@@ -133,9 +135,7 @@ public class ServiceTicket {
         int eventId = t.getEvent_id();
         int userId = t.getUser_id();
         
-        
-        
-        String url = Statics.ADD_EVENT_BASE_URL 
+        String url = Statics.TICKET_BASE_URL + "/new" 
                 + "?eventId=" + eventId 
                 + "&userId=" + userId;
 
@@ -151,5 +151,27 @@ public class ServiceTicket {
         });
         NetworkManager.getInstance().addToQueueAndWait(req);
         return resultOK;
+    }
+    
+    public String BuyTicket(String numCard, String expMois, String exAnnee, String cvv, int prix) {
+        String nom = "Aymen";
+        String email = "aymen@gmail.com";
+        String paymentStatus;
+        
+        PaymentService servicePayment = new PaymentService(email, nom, prix * 100, numCard, expMois, exAnnee, cvv);
+        try {
+            servicePayment.payer();
+            paymentStatus = "true";
+            try {
+                req.setDisposeOnCompletion(new InfiniteProgress().showInfiniteBlocking());
+                NetworkManager.getInstance().addToQueueAndWait(req);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } catch (StripeException ex) {
+            ex.printStackTrace();
+            paymentStatus = "error payment";
+        }
+        return paymentStatus;
     }
 }
