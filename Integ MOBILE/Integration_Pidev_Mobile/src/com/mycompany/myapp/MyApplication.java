@@ -13,7 +13,9 @@ import com.codename1.ui.Toolbar;
 import java.io.IOException;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.io.NetworkEvent;
+import com.mycompany.myapp.gui.ListProduittForm;
 import com.mycompany.myapp.gui.LoginForm;
+import com.mycompany.myapp.gui.NewCartForm;
 import com.mycompany.myapp.gui.RecBackHomeForm;
 import com.mycompany.myapp.gui.RecFrontHomeForm;
 
@@ -53,6 +55,7 @@ public class MyApplication {
 //        new RecFrontHomeForm().show();
 //    new RecBackHomeForm().show();
  new LoginForm().show();
+ //new ListProduittForm(null).show();
     }
 
     public void stop() {

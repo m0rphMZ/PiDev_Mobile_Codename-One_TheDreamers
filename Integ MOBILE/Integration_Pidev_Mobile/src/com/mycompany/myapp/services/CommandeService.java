@@ -138,7 +138,7 @@ public class CommandeService {
         listCommande = new ArrayList<>();
 
         cr = new ConnectionRequest();
-        cr.setUrl(Statics.BASE_URL_Panier + "/commande/mes/Commandes" + id);
+        cr.setUrl(Statics.BASE_URL_Panier + "/commande/mes/Commandes/" + id);
         cr.setHttpMethod("GET");
 
         cr.addResponseListener(new ActionListener<NetworkEvent>() {

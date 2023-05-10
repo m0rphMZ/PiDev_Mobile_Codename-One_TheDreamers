@@ -54,6 +54,10 @@ public class Statics {
     public static final String EMPLOYEE_IMAGE_URL = "http://127.0.0.1:8000/media/";
     public static final String SUJET_IMAGE_URL = "http://127.0.0.1:8000/media/";
     public static final String ARITCLE_IMAGE_URL = "http://127.0.0.1:8000/media/";
+    
+      //    ________________________________________Produit____________________________________________
+       //Montassar:   
+    public static final String BASE_URL_Produit="http://127.0.0.1:8000/mobile";
        
        
        
