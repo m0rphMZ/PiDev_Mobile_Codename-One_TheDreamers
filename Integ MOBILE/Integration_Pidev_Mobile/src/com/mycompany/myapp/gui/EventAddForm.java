@@ -50,6 +50,10 @@ public class EventAddForm extends Form{
             public void actionPerformed(ActionEvent evt) {
             if (title.getText().equals("") || description.getText().equals("") || ticketCount.getText().equals("") || ticketPrice.getText().equals("")) {
                 Dialog.show("Erreur!", "Veuillez ne pas laisser de champs vides", new Command("OK"));
+            } else if (!(isNumeric(ticketCount.getText()))) {
+                Dialog.show("Erreur", "Nombre de tickets invalide", new Command("OK"));
+            } else if (!(isFloat(ticketPrice.getText()))) {
+                Dialog.show("Erreur", "Prix du ticket invalide", new Command("OK"));
             } else {
                 try {
                 Event e = new Event();
@@ -81,4 +85,30 @@ public class EventAddForm extends Form{
         getToolbar().addMaterialCommandToLeftBar("", FontImage.MATERIAL_ARROW_BACK, e -> previous.showBack());         
         addAll(title, type, description, startDatePicker, endDatePicker, ticketCount, ticketPrice, submitBtn);
     }
+
+// Method to check if a string is a valid integer
+private boolean isNumeric(String str) {
+    if (str == null || str.length() == 0) {
+        return false;
+    }
+    try {
+        Integer.parseInt(str);
+        return true;
+    } catch (NumberFormatException e) {
+        return false;
+    }
+}
+
+// Method to check if a string is a valid float
+private boolean isFloat(String str) {
+    if (str == null || str.length() == 0) {
+        return false;
+    }
+    try {
+        Float.parseFloat(str);
+        return true;
+    } catch (NumberFormatException e) {
+        return false;
+    }
+}
 }

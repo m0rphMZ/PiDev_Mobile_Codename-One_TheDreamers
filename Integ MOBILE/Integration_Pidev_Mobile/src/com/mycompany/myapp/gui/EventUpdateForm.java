@@ -7,7 +7,9 @@ package com.mycompany.myapp.gui;
 
 import com.codename1.ui.Button;
 import com.codename1.ui.ComboBox;
+import com.codename1.ui.Command;
 import com.codename1.ui.Container;
+import com.codename1.ui.Dialog;
 import com.codename1.ui.Display;
 import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
@@ -53,6 +55,13 @@ public class EventUpdateForm extends Form{
         updateBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
+                if (title.getText().equals("") || description.getText().equals("") || ticketCount.getText().equals("") || ticketPrice.getText().equals("")) {
+                Dialog.show("Erreur!", "Veuillez ne pas laisser de champs vides", new Command("OK"));
+            } else if (!(isNumeric(ticketCount.getText()))) {
+                Dialog.show("Erreur", "Nombre de tickets invalide", new Command("OK"));
+            } else if (!(isFloat(ticketPrice.getText()))) {
+                Dialog.show("Erreur", "Prix du ticket invalide", new Command("OK"));
+            } else {
                 Event newEv = new Event();
                 newEv.setEvent_id(eventId);
                 newEv.setHost_id(ev.getHost_id());
@@ -75,7 +84,7 @@ public class EventUpdateForm extends Form{
                     new EventShowForm(new EventsListForm(new HomeForm()), eventId).show();
                 }
                  
-            }
+            }}
         });
         
         Container UpdateFormContainer = new Container(BoxLayout.y());
@@ -84,4 +93,30 @@ public class EventUpdateForm extends Form{
         UpdateFormContainer.addAll(title, type, description, startDatePicker, endDatePicker, ticketCount, ticketPrice, updateBtn);
         add(UpdateFormContainer);
     }
+    
+    // Method to check if a string is a valid integer
+private boolean isNumeric(String str) {
+    if (str == null || str.length() == 0) {
+        return false;
+    }
+    try {
+        Integer.parseInt(str);
+        return true;
+    } catch (NumberFormatException e) {
+        return false;
+    }
+}
+
+// Method to check if a string is a valid float
+private boolean isFloat(String str) {
+    if (str == null || str.length() == 0) {
+        return false;
+    }
+    try {
+        Float.parseFloat(str);
+        return true;
+    } catch (NumberFormatException e) {
+        return false;
+    }
+}
 }

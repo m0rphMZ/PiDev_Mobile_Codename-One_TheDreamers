@@ -76,11 +76,11 @@ public class ServiceEvent {
                 } else {
                     e.setDescription(obj.get("description").toString());
                 }
-                if (obj.get("startDate") == null) {
+                if (obj.get("startdate") == null) {
                     e.setStartDate(new Date());
                 } else {
                     String dateString = obj.get("startdate").toString();
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                     try {
                         Date date = dateFormat.parse(dateString);
                         e.setStartDate(date);
@@ -93,7 +93,7 @@ public class ServiceEvent {
                     e.setEndDate(new Date());
                 } else {
                     String dateString = obj.get("enddate").toString();
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                     try {
                         Date date = dateFormat.parse(dateString);
                         e.setEndDate(date);
@@ -192,11 +192,11 @@ public class ServiceEvent {
         } else {
             e.setDescription(eventJSON.get("description").toString());
         }
-        if (eventJSON.get("startDate") == null) {
+        if (eventJSON.get("startdate") == null) {
             e.setStartDate(new Date());
         } else {
             String dateString = eventJSON.get("startdate").toString();
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             try {
                 Date date = dateFormat.parse(dateString);
                 e.setStartDate(date);
@@ -209,7 +209,7 @@ public class ServiceEvent {
             e.setEndDate(new Date());
         } else {
             String dateString = eventJSON.get("enddate").toString();
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             try {
                 Date date = dateFormat.parse(dateString);
                 e.setEndDate(date);

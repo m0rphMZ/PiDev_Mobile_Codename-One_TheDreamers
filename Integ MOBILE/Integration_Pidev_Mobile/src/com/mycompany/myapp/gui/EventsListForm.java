@@ -5,6 +5,7 @@
 
 package com.mycompany.myapp.gui;
 
+import com.codename1.l10n.SimpleDateFormat;
 import com.codename1.ui.Button;
 import com.codename1.ui.CheckBox;
 import com.codename1.ui.Container;
@@ -60,8 +61,13 @@ public class EventsListForm extends Form{
         TitleValue.setUIID("TitleValue");
         Label TypeLabel = new Label("Type: " + ev.getType());
         Label DescLabel = new Label("Description: " + ev.getDescription());
-        Label startDateLabel = new Label("Date de début: " + ev.getStartDate());
-        Label endDateLabel = new Label("Date de fin: " + ev.getEndDate());
+        //Date Formatter:
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        String formattedStartDate = dateFormat.format(ev.getStartDate());
+        String formattedEndDate = dateFormat.format(ev.getEndDate());
+        Label startDateLabel = new Label("Date de début: " + formattedStartDate);
+        Label endDateLabel = new Label("Date de fin: " + formattedEndDate);
+        //======
         Label locationLabel = new Label("Lieu: " + ev.getLocationName());
         Label hostLabel = new Label("Host: " + ev.getHostNom() + " " + ev.getHostPrenom());
         Label ticketCountLabel = new Label("Tickets restants: " + ev.getTicketCount());
