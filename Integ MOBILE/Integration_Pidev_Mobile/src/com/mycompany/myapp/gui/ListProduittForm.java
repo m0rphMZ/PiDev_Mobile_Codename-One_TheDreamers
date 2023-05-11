@@ -77,10 +77,13 @@ public class ListProduittForm extends Form {
         btnsContainer = new Container(new BorderLayout());
         btnsContainer.setUIID("containerButtons");
 
-        addtoCartBtn = new Button("Add to Cart");
+        addtoCartBtn = new Button("Ajouter au panier");
         addtoCartBtn.setUIID("buttonDanger");
         addtoCartBtn.addActionListener(action -> {
-            CartService.getInstance().add(produit.getId());
+            NewCartForm.getMaListeProduits().add(produit);
+            System.out.println(NewCartForm.getMaListeProduits().size());
+            
+            
         });
 
         btnsContainer.add(BorderLayout.CENTER, addtoCartBtn);

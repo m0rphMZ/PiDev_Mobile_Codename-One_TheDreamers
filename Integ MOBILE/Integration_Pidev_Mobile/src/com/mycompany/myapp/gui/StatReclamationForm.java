@@ -54,7 +54,7 @@ public class StatReclamationForm extends Form {
 
     private void countStatus(String status) {
         switch (status) {
-            case "Ouverte":
+            case "Ouvert":
                 numOpen++;
                 break;
             case "Fermée":

@@ -100,7 +100,7 @@ public class UpdateLocalForm extends Form {
                     
                
                          
-                  LocalListForm form = new LocalListForm();
+                  LocalListForm form = new LocalListForm(previous);
     form.show();
 //             LocalAddForm form = new LocalAddForm();
 //    form.show();

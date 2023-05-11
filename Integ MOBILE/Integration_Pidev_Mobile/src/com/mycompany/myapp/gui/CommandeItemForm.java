@@ -16,10 +16,8 @@ import com.codename1.ui.util.Resources;
 import java.util.ArrayList;
 
 import com.codename1.components.ImageViewer;
-import com.codename1.ui.Component;
+//import com.codename1.ui.Component;
 import com.codename1.ui.Container;
-import com.codename1.ui.EncodedImage;
-import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
 import com.codename1.ui.Image;
 import com.codename1.ui.Label;
@@ -66,12 +64,11 @@ public class CommandeItemForm extends Form {
                 this.add(makeCommandeModel(commandeitem));
             }
         } else {
-            this.add(new Label("Aucune donnée"));
+            this.add(new Label("Panier est Vide"));
         }
     }
 
     private Component makeCommandeModel(CommandeItem commandeItem) {
-        ImageViewer imageIV;
 
         Container commandeItemModel = new Container(new BoxLayout(BoxLayout.Y_AXIS));
         commandeItemModel.setUIID("containerRounded");
@@ -80,29 +77,15 @@ public class CommandeItemForm extends Form {
         idLabel.setUIID("labelDefault");
         quantiteLabel = new Label("qantité : " + commandeItem.getQantity());
         quantiteLabel.setUIID("labelDefault");
-       /// produitLabel = new Label("produit : " + commandeItem.getProduitBrand());
-        produitLabel.setUIID("labelDefault");
+      //  produitLabel = new Label("produit : " + commandeItem.g);
+       // produitLabel.setUIID("labelDefault");
 
-        if (false) {
-           String url = Statics.PRODUIT_IMAGE_URL;
-                 //  + cour.getImage_cours();
-            Image image = URLImage.createToStorage(
-                 EncodedImage.createFromImage(theme.getImage("default.jpg").fill(1100, 500), false),
-                   url,
-                   url,
-                   URLImage.RESIZE_SCALE
-           );
-           imageIV = new ImageViewer(image);
-        } else {
-           imageIV = new ImageViewer(theme.getImage("default.jpg").fill(1100, 500));
-       }
-       imageIV.setFocusable(false);
 
         commandeItemModel.addAll(
-                imageIV,
+               
                 idLabel,
-                produitLabel,
-                quantiteLabel
+                produitLabel
+                //quantiteLabel
         );
 
         return commandeItemModel;

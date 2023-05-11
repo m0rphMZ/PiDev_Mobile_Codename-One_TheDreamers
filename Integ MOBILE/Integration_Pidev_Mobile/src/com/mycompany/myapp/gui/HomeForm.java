@@ -29,10 +29,11 @@ public class HomeForm extends Form{
         
         
         Button list = new Button("Profile");
-        Button cart = new Button("Panier");
         Button event = new Button("Evenements");
+        Button cart = new Button("Panier");
         Button reclamation = new Button("Reclamations");
         Button produit = new Button("Produit");
+        Button locaux = new Button("Locaux");
         Button mesCommandes = new Button("Mes Commandes");
         
     
@@ -41,9 +42,10 @@ public class HomeForm extends Form{
         reclamation.addActionListener(e-> new RecFrontHomeForm (this).show());
         event.addActionListener(e-> new EventHomeForm (this).show());
         cart.addActionListener(e-> new NewCartForm (this).show());
+        locaux.addActionListener(e-> new FrontLoc (this).show());
         produit.addActionListener(e-> new ListProduittForm (this).show());
         mesCommandes.addActionListener(e-> new mesCommandeForm (this).show());
-        addAll(list, cart,event,reclamation,produit,mesCommandes);
+        addAll(list, cart,event,reclamation,produit,locaux,mesCommandes);
         
         
     }

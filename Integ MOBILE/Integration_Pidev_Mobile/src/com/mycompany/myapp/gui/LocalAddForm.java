@@ -60,6 +60,13 @@ public class LocalAddForm  extends Form{
       //   TextField dispo_evenementField = new TextField("", "disponibilite");
           ComboBox<String> recType = new ComboBox<>("oui", "non");
         // Create a button to add the evenement
+        Button backBtn = new Button("back");
+          backBtn.addActionListener(e -> {
+          
+          LocalListForm f=new LocalListForm(this);
+          f.show();
+          
+          });
         Button addBtn = new Button("Add");
         addBtn.addActionListener(e -> {
             // Validate the entered values
@@ -100,7 +107,7 @@ public class LocalAddForm  extends Form{
                 // Create a new demande with the entered information
                 
                 
-                 if (descript_localField.getText().equals("") || lieu_localField.getText().equals("") || equipement_evenementField.getText().equals("")  ) {
+                 if (descript_localField.getText().equals("") || lieu_localField.getText().equals("") || equipement_evenementField.getText().equals("") || recType.getSelectedIndex() == 0 ) {
             Dialog.show("Erreur", "Tous les champs sont obligatoires", new Command("OK"));
        } 
 //else if (teltf.getText().length() != 8) {
@@ -142,7 +149,7 @@ public class LocalAddForm  extends Form{
 //                        Dialog.show("ERROR", "Status must be a number");
                     }
                 
-                new  LocalListForm().show();
+                new  LocalListForm(this).show();
 
 
                 // Close the form
@@ -170,8 +177,9 @@ public class LocalAddForm  extends Form{
         
 
         add(addBtn);
+        add(backBtn);
     
-    
+       
     
     }
     

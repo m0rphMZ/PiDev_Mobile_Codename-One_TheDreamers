@@ -49,7 +49,6 @@ public class CartService {
         cr = new ConnectionRequest();
         cr.setUrl(Statics.BASE_URL_Panier + "/cart");
         cr.setHttpMethod("GET");
-
         cr.addResponseListener(new ActionListener<NetworkEvent>() {
             @Override
             public void actionPerformed(NetworkEvent evt) {
@@ -57,18 +56,15 @@ public class CartService {
                 if (cr.getResponseCode() == 200) {
                     listProduit = getList();
                 }
-
                 cr.removeResponseListener(this);
             }
         });
-
         try {
             cr.setDisposeOnCompletion(new InfiniteProgress().showInfiniteBlocking());
             NetworkManager.getInstance().addToQueueAndWait(cr);
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return listProduit;
     }
 
@@ -84,12 +80,11 @@ public class CartService {
 
                 produit.setQteStock((int) Float.parseFloat(obj.get("quantity").toString()));
                 Map<String, Object> map = (Map<String, Object>) obj.get("product");
-                double d = (Double.parseDouble(map.get("id") + ""));
-                int x = (int) d;
-                produit.setId(x);
+                //double d = (Double.parseDouble(map.get("id") + ""));
+               // int x = (int) d;
+               // produit.setId(x);
+               
                 produit.setCodeproduit((String) map.get("Nom produit"));
-//                produit.setBrand(((Produit) obj.get("product")).getBrand());
-
                 listProduit.add(produit);
             }
         } catch (IOException e) {
@@ -115,7 +110,7 @@ public class CartService {
             cr.setDisposeOnCompletion(new InfiniteProgress().showInfiniteBlocking());
             NetworkManager.getInstance().addToQueueAndWait(cr);
         } catch (Exception e) {
-            e.printStackTrace();
+            e.getMessage();
         }
         return cr.getResponseCode();
     }

@@ -14,14 +14,13 @@ import com.codename1.io.JSONParser;
 import com.codename1.io.NetworkEvent;
 import com.codename1.io.NetworkManager;
 import com.codename1.ui.Dialog;
-import com.codename1.ui.FontImage;
-import com.codename1.ui.Toolbar;
 import com.codename1.ui.events.ActionListener;
 import com.codename1.ui.util.Resources;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import com.mycompany.myapp.entities.CategorieLocal;
 import com.mycompany.myapp.entities.Local;
 import com.mycompany.myapp.utils.Statics;
 public class LocalService {
@@ -31,6 +30,7 @@ public class LocalService {
     private static LocalService instance = null;
     private Resources res;
     private ArrayList<Local> locaux;
+     private ArrayList<CategorieLocal> catg;
     
     private LocalService() {
         req = new ConnectionRequest();
@@ -120,6 +120,84 @@ public class LocalService {
         
         return locaux;
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+   public ArrayList<CategorieLocal> parseCategorie(String jsonText) {
+        try {
+            catg = new ArrayList<>();
+            JSONParser j2 = new JSONParser();// Instanciation d'un objet JSONParser permettant le parsing du résultat json
+
+            Map<String, Object> userListJson = j2.parseJSON(new CharArrayReader(jsonText.toCharArray()));
+
+            List<Map<String, Object>> list = (List<Map<String, Object>>) userListJson.get("root");
+            for (Map<String, Object> obj : list) {
+                //Création des Users et récupération de leurs données
+                CategorieLocal e = new CategorieLocal();
+                
+                
+                
+             float id =  Float.parseFloat(obj.get("code").toString());
+            int idAsInt = (int) id;
+            e.setCode((int) idAsInt);
+                
+                String descript_local = obj.get("libelle").toString();
+                e.setLibelle((descript_local));
+                
+                String lieu_local = obj.get("color").toString();
+                e.setColor(lieu_local);
+                
+       
+                //Ajouter le vélo extrait de la réponse Json à la liste
+                catg.add(e);
+            }
+
+        } catch (IOException ex) {
+
+        }
+        
+        return catg;
+    }
+    
+    
+    public ArrayList<CategorieLocal> getAllCategories(){
+    
+         ArrayList<CategorieLocal> listEvenement= new ArrayList<>();
+        int id = 2;
+        String url = Statics.BASE_URL + "/afficherJsonCategorie";
+
+       
+       
+        
+        req.setUrl(url);
+        req.setPost(false);
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+               catg = parseCategorie(new String(req.getResponseData()));
+                req.removeResponseListener(this);
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(req);
+        
+        return catg;
+    
+    
+    
+    
+    }
+    
+    
+    
+    
+    
+    
 
     public ArrayList<Local> getAllLocaux() {
         ArrayList<Local> listEvenement= new ArrayList<>();
@@ -209,6 +287,61 @@ public class LocalService {
     }
     
     
+    
+    
+    public boolean addCategorie(CategorieLocal e) {
+              ///api/ajoutLocal?descipt_loc=888&lieu_loc=ggg&surface_loc=7.5&prix_loc=8&equipements=gggg&disponibilite=tt&nb_pers_loc=77&image=77&code_catg=0
+                String url = Statics.BASE_URL + "/api/ajoutCategLoc?code=" + e.getCode()+ "&libelle=" + e.getLibelle()+ "&color=" + e.getColor() ; //création de l'URL
+ //création de l'URL
+        req.setUrl(url);
+//        
+//        
+//        
+//          req.setUrl(url);
+        req.setPost(true);
+        
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                resultOK = req.getResponseCode() == 200; //Code HTTP 200 OK
+                req.removeResponseListener(this);
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(req);
+        return resultOK;
+       
+        
+        
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+     public void deleteCatg(int id) {
+
+        Dialog d = new Dialog();
+        if (d.show("Delete Categorie"
+                + "..", "Do you really want to remove this Local", "Yes", "No")) {
+
+            req.setUrl(Statics.BASE_URL + "/api/delete/catg/" + id);
+       
+            NetworkManager.getInstance().addToQueueAndWait(req);
+        d.dispose();
+    }
+        }
    public void deleteLocal(int id) {
 
         Dialog d = new Dialog();
@@ -330,41 +463,10 @@ u.setDescript(descript_local);
           
           
           
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
 //          
 ////          
 ////          
-////    Local e = new Local();
-////    try {
-////        JSONParser j = new JSONParser();
-////        Map<String, Object> eventJSON = j.parseJSON(new CharArrayReader(jsonText.toCharArray()));
-////        
-////        if (eventJSON.get("numLoc") == null) {
-////            e.setNum(0);
-////        } else {
-////            float event_id = Float.parseFloat(eventJSON.get("numLoc").toString());
-////            e.setNum((int) event_id);
-////        }
-////        if (eventJSON.get("desciptLoc") == null) {
-////            e.setDescript("error");
-////        } else {
-////            e.setDescript(eventJSON.get("desciptLoc").toString());
-////        }
-////        if (eventJSON.get("lieuLoc") == null) {
-////            e.setLieu("error");
-////        } else {
+
 ////            e.setLieu(eventJSON.get("lieuLoc").toString());
 ////        }
 ////        if (eventJSON.get("equipements") == null) {
@@ -488,7 +590,7 @@ u.setDescript(descript_local);
    
    
     public Local getEventById(int id) {
-            String url ="http://127.0.0.1:8000/LocalShow/"+id;
+            String url =Statics.BASE_URL + "/localParidJSON/"+id;
             
         //String url = statics.SHOW_EVENT_BASE_URL + id;
         req.setUrl(url);
@@ -515,7 +617,7 @@ u.setDescript(descript_local);
         String eq = e.getEquipements();
          int nbper = e.getNbper();
 
-        String url ="http://127.0.0.1:8000/UpdateLocalJSON/"+ id      
+        String url =Statics.BASE_URL + "/UpdateLocalJSON/"+ id      
                 + "?descipt_loc=" + desc 
                     + "&lieu_loc=" + lieu
                     + "&surface_loc=" + surface
@@ -541,7 +643,150 @@ u.setDescript(descript_local);
     
    
    
-  
+   /************update categorie********/
+    
+    
+      public CategorieLocal parseSingleCategorieLoc(String jsonText) {
+           CategorieLocal u = new CategorieLocal();
+            try {
+            locaux = new ArrayList<>();
+            JSONParser j = new JSONParser();// Instanciation d'un objet JSONParser permettant le parsing du résultat json
+
+            Map<String, Object> userListJson = j.parseJSON(new CharArrayReader(jsonText.toCharArray()));
+
+           //  Map<String, Object> eventJSON = j.parseJSON(new CharArrayReader(jsonText.toCharArray()));
+            
+          //  List<Map<String, Object>> list = (List<Map<String, Object>>) userListJson.get("root");
+
+                //Création des Users et récupération de leurs données
+                  
+                
+                
+             float id =  Float.parseFloat(userListJson.get("codecLoc").toString());
+            int idAsInt = (int) id;
+            u.setCode((int) idAsInt);
+                
+                String descript_local = userListJson.get("libellecLoc").toString();
+               
+u.setLibelle(descript_local);
+
+                u.setLibelle((descript_local));
+                
+                String lieu_local = userListJson.get("color").toString();
+                u.setColor(lieu_local);
+                
+         
+               /* String lieux_evenement = obj.get("lieux_evenement").toString();
+                u.setLieux_evenement(lieux_evenement);*/
+           
+                
+                
+                        
+                
+               /* String image = obj.get("image").toString();
+                u.setImage(image);*/
+//                  Object numLocObj = location.get("numLoc");
+//                  float categorie_id =  Float.parseFloat(userListJson.get("codeCatg").toString());
+//            int categorir_idAsInt = (int) categorie_id;
+//            u.setCodec((int) categorir_idAsInt);
+//                  Map<String, Object> host = (Map<String, Object>) userListJson.get("codeCatg");
+//          Object userIdObj = host.get("codecLoc");
+//                 float categorie_id =  Float.parseFloat(userIdObj.toString());
+//                 int categorir_idAsInt = (int) categorie_id;
+//        u.setCodec((int) categorir_idAsInt);
+//            'prix_loc' => $location->getPrixLoc(),
+//           'equipements' => $location->getEquipements(),
+//            'disponibilite' => $location->getDisponibilite(),    
+//                
+//            
+//            float prix_local = Float.parseFloat(userListJson.get("prixLoc").toString());
+//                u.setPrix((Float) prix_local);
+//            
+//              String equipements = userListJson.get("equipements").toString();
+//                u.setEquipements((equipements));
+//                 String disponibilite = userListJson.get("disponibilite").toString();
+//                u.setDisponibilite((disponibilite));
+                 
+//                v.setCouleur(obj.get("couleur").toString());
+//                v.setEtat(obj.get("etat").toString());
+}
+               
+            
+       catch (IOException ex) {
+
+        }
+         return u;
+      }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+     public CategorieLocal getCatglocalById(int id) {
+            String url =Statics.BASE_URL + "/CategorieParIdJSON/"+id;
+            
+        //String url = statics.SHOW_EVENT_BASE_URL + id;
+        req.setUrl(url);
+        req.setPost(false);
+        final CategorieLocal[] catg = {null}; 
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                catg[0] = parseSingleCategorieLoc(new String(req.getResponseData())); 
+                req.removeResponseListener(this);
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(req);
+        return catg[0]; 
+    }
+    
+    
+    
+    
+    
+    
+    
+    public boolean updateCategorieLocal(CategorieLocal e) {
+        int id = e.getCode();
+        String libelle = e.getLibelle();
+        String color = e.getColor();
+        
+        
+       
+//a resser l 'ajout de # ici 
+        String url =Statics.BASE_URL + "/UpdateCategorielocJSON/"+ id      
+                + "?libelle=" + libelle 
+                    + "&color=" + color;
+
+        req.setUrl(url);
+        req.setPost(true);
+
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                resultOK = req.getResponseCode() == 200;
+                req.removeResponseListener(this);
+            }
+        });
+
+        NetworkManager.getInstance().addToQueueAndWait(req);
+        return resultOK;
+    }
+    
+   
    
    
    

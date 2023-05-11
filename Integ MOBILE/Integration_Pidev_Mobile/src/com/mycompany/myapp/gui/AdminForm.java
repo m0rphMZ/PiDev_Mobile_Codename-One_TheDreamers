@@ -38,7 +38,7 @@ public class AdminForm extends Form{
         recAdmin.addActionListener(e-> new RecBackHomeForm (this).show());
         list.addActionListener(e-> new UsersForm (this).show());
         eventAdmin.addActionListener(e-> new EventAdminHomeForm(this).show());
-        local.addActionListener(e-> new LocalListForm().show());
+        local.addActionListener(e-> new LocalListForm(this).show());
         addAll(list,eventAdmin,recAdmin,local,commande);
         
         

@@ -24,10 +24,10 @@ public class RecBackHomeForm extends Form{
         
         add(new Label("Choisis une option"));
         Button btnListRec = new Button("Consulter toutes les réclamations");
-        Button btnAddRec = new Button("Statistiques");
+        Button btnStatRec = new Button("Statistiques");
         
         
-        btnAddRec.addActionListener(e-> new AddRecForm(this).show());
+        btnStatRec.addActionListener(e-> new StatReclamationForm(this).show());
         
         btnListRec.addActionListener(e -> {
         ListReclamationsForm listRecForm = new ListReclamationsForm(this);
@@ -35,7 +35,7 @@ public class RecBackHomeForm extends Form{
     });
         
         getToolbar().addMaterialCommandToLeftBar("", FontImage.MATERIAL_ARROW_BACK, e -> previous.showBack());
-        addAll(btnListRec, btnAddRec);
+        addAll(btnListRec, btnStatRec);
         
         
     }

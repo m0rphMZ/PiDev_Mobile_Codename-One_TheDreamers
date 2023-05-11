@@ -16,11 +16,15 @@ import com.codename1.ui.Form;
 import com.codename1.ui.Image;
 import com.codename1.ui.Label;
 import com.codename1.ui.URLImage;
+import com.codename1.ui.events.ActionEvent;
+import com.codename1.ui.events.ActionListener;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.plaf.UIManager;
 import com.codename1.ui.util.Resources;
+import com.mycompany.myapp.services.ServiceUser;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -28,11 +32,24 @@ import java.util.ArrayList;
  */
 public class NewCartForm extends Form {
 
+    
+private static List<Produit> maListeProduits = new ArrayList<>();
     Label quantiteLabel, NomProduitLabel;
     Button removeBtn;
     Container btnsContainer;
     Button addBtn;
     Resources theme = UIManager.initFirstTheme("/theme");
+    
+    
+    public static List<Produit> getMaListeProduits() {
+        return maListeProduits;
+    }
+
+    // Setter pour maListeProduits
+    public static void setMaListeProduits(List<Produit> listeProduits) {
+        maListeProduits = listeProduits;
+    }
+    
 
     public NewCartForm(Form previous) {
         super("cart", new BoxLayout(BoxLayout.Y_AXIS));
@@ -56,10 +73,25 @@ public class NewCartForm extends Form {
         addBtn.setUIID("buttonWhiteCenter");
 
         this.add(addBtn);
-        ArrayList<Produit> listProduit = CartService.getInstance().getAll();
+        List<Produit> listProduit =  NewCartForm.getMaListeProduits();
         if (listProduit.size() > 0) {
             for (Produit produit : listProduit) {
                 this.add(makeCommandeModel(produit));
+                
+                Button supp = new Button("Supprimer");
+                this.add(supp);
+                supp.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent evt) {
+         
+         NewCartForm.getMaListeProduits().remove(produit);
+        
+        Dialog.show("Succés", "Produit supprimé", new Command("OK"));
+            
+    
+    }
+});
+
             }
         } else {
             this.add(new Label("Aucune donnée"));
@@ -74,7 +106,6 @@ public class NewCartForm extends Form {
     }
 
     private Component makeCommandeModel(Produit produit) {
-        ImageViewer imageIV;
 
         Container commandeModel = new Container(new BoxLayout(BoxLayout.Y_AXIS));
         commandeModel.setUIID("containerRounded");
@@ -83,20 +114,7 @@ public class NewCartForm extends Form {
         NomProduitLabel.setUIID("labelDefault");
         quantiteLabel = new Label("quantité : " + produit.getQteStock());
         quantiteLabel.setUIID("labelDefault");
-        if (false) {
-            String url = Statics.PRODUIT_IMAGE_URL;
-//                    + cour.getImage_cours();
-            Image image = URLImage.createToStorage(
-                    EncodedImage.createFromImage(theme.getImage("default.jpg").fill(1100, 500), false),
-                    url,
-                    url,
-                    URLImage.RESIZE_SCALE
-            );
-            imageIV = new ImageViewer(image);
-        } else {
-            imageIV = new ImageViewer(theme.getImage("default.jpg").fill(1100, 500));
-        }
-        imageIV.setFocusable(false);
+        
 
         btnsContainer = new Container(new BorderLayout());
         btnsContainer.setUIID("containerButtons");
@@ -113,7 +131,7 @@ public class NewCartForm extends Form {
         btnsContainer.add(BorderLayout.CENTER, removeBtn);
 
         commandeModel.addAll(
-                imageIV,
+                
                 NomProduitLabel,
                 quantiteLabel,
                 btnsContainer
@@ -121,4 +139,6 @@ public class NewCartForm extends Form {
 
         return commandeModel;
     }
+    
+    
 }
